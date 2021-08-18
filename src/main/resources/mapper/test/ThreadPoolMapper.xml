@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yue.threadpool.dao.test.ThreadPoolMapper">
+    <resultMap id="BaseResultMap" type="com.yue.threadpool.bean.test.ThreadPoolPo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="mer_code" jdbcType="VARCHAR" property="merCode"/>
+        <result column="child_mer_code" jdbcType="VARCHAR" property="childMerCode"/>
+        <result column="level_name" jdbcType="VARCHAR" property="levelName"/>
+        <result column="card_deposit" jdbcType="VARCHAR" property="cardDeposit"/>
+        <result column="service_fee" jdbcType="VARCHAR" property="serviceFee"/>
+        <result column="day_limit_times" jdbcType="INTEGER" property="dayLimitTimes"/>
+        <result column="day_limit_amount" jdbcType="VARCHAR" property="dayLimitAmount"/>
+        <result column="month_limit_times" jdbcType="INTEGER" property="monthLimitTimes"/>
+        <result column="month_limit_amount" jdbcType="VARCHAR" property="monthLimitAmount"/>
+        <result column="open_type" jdbcType="INTEGER" property="openType"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="create_time" jdbcType="VARCHAR" property="createTime"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="update_time" jdbcType="VARCHAR" property="updateTime"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+    </resultMap>
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete
+        from yx_test_threads
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.yue.threadpool.bean.test.ThreadPoolPo" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into yx_test_threads
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="merCode != null and merCode !=''">
+                mer_code,
+            </if>
+            <if test="childMerCode != null and childMerCode !=''">
+                child_mer_code,
+            </if>
+            <if test="levelName != null and levelName !=''">
+                level_name,
+            </if>
+            <if test="cardDeposit != null and cardDeposit !=''">
+                card_deposit,
+            </if>
+            <if test="serviceFee != null and serviceFee !=''">
+                service_fee,
+            </if>
+            <if test="dayLimitTimes != null and dayLimitTimes !=''">
+                day_limit_times,
+            </if>
+            <if test="dayLimitAmount != null and dayLimitAmount !=''">
+                day_limit_amount,
+            </if>
+            <if test="monthLimitTimes != null and monthLimitTimes !=''">
+                month_limit_times,
+            </if>
+            <if test="monthLimitAmount != null and monthLimitAmount !=''">
+                month_limit_amount,
+            </if>
+            <if test="openType != null and openType !=''">
+                open_type,
+            </if>
+            <if test="status != null and status !=''">
+                status,
+            </if>
+            <if test="createTime != null and createTime !=''">
+                create_time,
+            </if>
+            <if test="createUser != null and createUser !=''">
+                create_user,
+            </if>
+            <if test="updateTime != null and updateTime !=''">
+                update_time,
+            </if>
+            <if test="updateUser != null and updateUser !=''">
+                update_user
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="merCode != null and merCode !=''">
+                #{merCode,jdbcType=VARCHAR},
+            </if>
+            <if test="childMerCode != null and childMerCode !=''">
+                #{childMerCode,jdbcType=VARCHAR},
+            </if>
+            <if test="levelName != null and levelName !=''">
+                #{levelName,jdbcType=VARCHAR},
+            </if>
+            <if test="cardDeposit != null and cardDeposit !=''">
+                #{cardDeposit,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceFee != null and serviceFee !=''">
+                #{serviceFee,jdbcType=VARCHAR},
+            </if>
+            <if test="dayLimitTimes != null and dayLimitTimes !=''">
+                #{dayLimitTimes,jdbcType=INTEGER},
+            </if>
+            <if test="dayLimitAmount != null and dayLimitAmount !=''">
+                #{dayLimitAmount,jdbcType=VARCHAR},
+            </if>
+            <if test="monthLimitTimes != null and monthLimitTimes !=''">
+                #{monthLimitTimes,jdbcType=INTEGER},
+            </if>
+            <if test="monthLimitAmount != null and monthLimitAmount !=''">
+                #{monthLimitAmount,jdbcType=VARCHAR},
+            </if>
+            <if test="openType != null and openType !=''">
+                #{openType,jdbcType=INTEGER},
+            </if>
+            <if test="status != null and status !=''">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null and createTime !=''">
+                #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null and createUser !=''">
+                #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null and updateTime !=''">
+                #{updateTime,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUser != null and updateUser !=''">
+                #{updateUser,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO yx_test_threads (mer_code, child_mer_code,level_name, card_deposit,
+        service_fee, day_limit_times, day_limit_amount, month_limit_times, month_limit_amount,
+        open_type,status,create_time,create_user,update_time, update_user)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.merCode,jdbcType=VARCHAR},#{item.childMerCode,jdbcType=VARCHAR},#{item.levelName,jdbcType=VARCHAR},
+            #{item.cardDeposit,jdbcType=VARCHAR},#{item.serviceFee,jdbcType=VARCHAR},#{item.dayLimitTimes,jdbcType=INTEGER},
+            #{item.dayLimitAmount,jdbcType=VARCHAR}, #{item.monthLimitTimes,jdbcType=INTEGER},
+            #{item.monthLimitAmount,jdbcType=VARCHAR},
+            #{item.openType,jdbcType=INTEGER},#{item.status,jdbcType=INTEGER}, #{item.createTime,jdbcType=VARCHAR},
+            #{item.createUser,jdbcType=VARCHAR},
+            #{item.updateTime,jdbcType=VARCHAR},#{item.updateUser,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+    <update id="updateById" parameterType="com.yue.threadpool.bean.test.ThreadPoolPo">
+        update yx_test_threads
+        <set>
+            <if test="merCode != null and merCode !=''">
+                mer_code = #{merCode,jdbcType=VARCHAR},
+            </if>
+            <if test="childMerCode != null and childMerCode !=''">
+                child_mer_code = #{childMerCode,jdbcType=VARCHAR},
+            </if>
+            <if test="levelName != null and levelName !=''">
+                level_name = #{levelName,jdbcType=VARCHAR},
+            </if>
+            <if test="cardDeposit != null and cardDeposit !=''">
+                card_deposit = #{cardDeposit,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceFee != null and serviceFee !=''">
+                service_fee = #{serviceFee,jdbcType=VARCHAR},
+            </if>
+            <if test="dayLimitTimes != null and dayLimitTimes !=''">
+                day_limit_times = #{dayLimitTimes,jdbcType=INTEGER},
+            </if>
+            <if test="dayLimitAmount != null and dayLimitAmount !=''">
+                day_limit_amount = #{dayLimitAmount,jdbcType=VARCHAR},
+            </if>
+            <if test="monthLimitTimes != null and monthLimitTimes !=''">
+                month_limit_times = #{monthLimitTimes,jdbcType=INTEGER},
+            </if>
+            <if test="monthLimitAmount != null and monthLimitAmount !=''">
+                month_limit_amount = #{monthLimitAmount,jdbcType=VARCHAR},
+            </if>
+            <if test="openType != null and openType !=''">
+                open_type = #{openType,jdbcType=INTEGER},
+            </if>
+            <if test="status != null and status !=''">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null and createTime !=''">
+                create_time = #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null and createUser !=''">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null and updateTime !=''">
+                update_time = #{updateTime,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUser != null and updateUser !=''">
+                update_user = #{updateUser,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id,
+               mer_code,
+               child_mer_code,
+               level_name,
+               card_deposit,
+               service_fee,
+               day_limit_times,
+               day_limit_amount,
+               month_limit_times,
+               month_limit_amount,
+               open_type,
+               status,
+               create_time,
+               create_user,
+               update_time,
+               update_user
+        from yx_test_threads
+        where status = 1
+          and id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectOpenCardFeeById" resultType="java.util.Map">
+        select id           AS id,
+               card_deposit AS openCardDeposit,
+               service_fee  AS openCardFee
+        from yx_test_threads
+        where id = #{id}
+    </select>
+</mapper>

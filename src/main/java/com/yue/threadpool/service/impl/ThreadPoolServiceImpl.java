@@ -1,6 +1,7 @@
 package com.yue.threadpool.service.impl;
 
 import com.yue.threadpool.bean.test.ThreadPoolPo;
+import com.yue.threadpool.common.utils.BeanMapUtils;
 import com.yue.threadpool.common.utils.DateUtils;
 import com.yue.threadpool.dao.test.TestMapper;
 import com.yue.threadpool.dao.test.ThreadPoolMapper;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @ProjectName: springboot-authority
@@ -49,11 +51,34 @@ public class ThreadPoolServiceImpl implements ThreadPoolService {
     public String insertThreadPool() {
         List<ThreadPoolPo> list = createThreadPoolPos();
         long startTime = System.currentTimeMillis();
-        poolTaskExecutor.execute(() -> {
-            list.forEach(e -> {
-                threadPoolMapper.insert(e);
+        int corePoolSize = poolTaskExecutor.getCorePoolSize()-1;
+        List<List<ThreadPoolPo>> splitList = BeanMapUtils.averageSplitList(list, corePoolSize);
+        List<Thread> threadList = splitList.stream().map(e -> {
+            Thread thread = new Thread(() -> {
+                e.forEach(m -> {
+                    threadPoolMapper.insert(m);
+                });
             });
+            return thread;
+        }).collect(Collectors.toList());
+        threadList.forEach(e->{
+            poolTaskExecutor.execute(e);
         });
+
+//        splitList.forEach(e->{
+//            Thread thread = new Thread(() -> {
+//                e.forEach(m->{
+//                    threadPoolMapper.insert(m);
+//                });
+//            });
+//        });
+//
+//        long startTime = System.currentTimeMillis();
+//        poolTaskExecutor.execute(() -> {
+//            list.forEach(e -> {
+//                threadPoolMapper.insert(e);
+//            });
+//        });
         long endTime = System.currentTimeMillis();
         return "thread-pool-task执行时间" + (endTime - startTime) + "毫秒";
     }
